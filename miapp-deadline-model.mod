@@ -4,23 +4,22 @@
 
 // PARAMETER & ENTSCHEIDUNGSVARIABLEN
 	// Job-Parameter
-	int		n 			= ...;	// # Jobs (genauer: # JobsReal, also ohne SP!)
-	range 	JobsVirtual = 0..n;	// with SP
-	range 	JobsReal 	= 1..n;	// w/o  SP
-	float  	d[JobsReal] = ...;	// deadlines
-	
+	int	n 		= ...;
+	range 	JobsVirtual 	= 0..n;
+	range 	JobsReal 	= 1..n;
+	float  	d[JobsReal] 	= ...;
+
 	// Kanten-Parameter
 	float	t[JobsVirtual, JobsVirtual] = ...;
-		
+
 	// Entscheidungs-Variablen
-	// x ist für i=j zwar definiert, aber durch NBen 3.1 und 3.2 wird die Belegung für i=j mit 1 verhindert
-	dvar boolean x[JobsVirtual, JobsVirtual];
-	dvar float	 c[JobsVirtual]; // float, da t[·,·] auf c[·] addiert wird 
-	dvar boolean u[JobsReal];
-	
-	// Pseudo-Entscheidungs-Variable für CPLEX
+	dvar boolean	x[JobsVirtual, JobsVirtual];
+	dvar float	c[JobsVirtual];
+	dvar boolean	u[JobsReal];
+
+	// Pseudo-Entscheidungs-Variable fÃ¼r CPLEX
 	dvar float sum_of_t;
- 
+
 // MODELL
 	minimize sum(i in JobsReal) u[i];
 	subject to {
@@ -46,7 +45,7 @@
 		sum_of_t == sum(i in JobsVirtual, j in JobsVirtual) t[i,j];
 	}
 
-// AUSFÜHRUNG
+// AUSFÃœHRUNG
 	execute
 	{
 		// write found solution to file "res.txt"
